@@ -60,13 +60,9 @@ def update_led_temperature(temp):
 
 
 def get_cpu_temp():
-    t = psutil.sensors_temperatures()
-    for x in ['cpu-thermal', 'cpu_thermal']:
-        if x in t:
-            return t[x][0].current
-    print("Warning: Unable to get CPU temperature!")
-    return 0
-
+    with open('/sys/class/thermal/thermal_zone0/temp', 'r') as f : 
+        x = int(f.read()) / 1000
+    return x
 
 def get_cpu_freq():
     freq = psutil.cpu_freq()
